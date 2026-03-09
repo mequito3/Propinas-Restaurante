@@ -38,6 +38,38 @@
             border: 1px solid rgba(226, 232, 240, 0.8) !important;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
         }
+
+        @keyframes fade-in-right {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fade-out-right {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        .animate-fade-in-right {
+            animation: fade-in-right 0.4s ease-out forwards;
+        }
+
+        .animate-fade-out-right {
+            animation: fade-out-right 0.3s ease-in forwards;
+        }
     </style>
 </head>
 

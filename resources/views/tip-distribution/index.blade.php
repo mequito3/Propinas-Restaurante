@@ -143,18 +143,20 @@
             <!-- Sección Media: Lista de Procesamiento de Personal -->
             <div class="space-y-4 min-h-[120px]" id="staffList">
                 <!-- Tarjetas de personal dinámicas inyectadas aquí -->
-                <div id="emptyStateMsg"
-                    class="flex flex-col items-center justify-center py-12 px-4 border border-dashed border-slate-200 rounded-2xl bg-white/40 mt-4">
-                    <div class="bg-slate-50 p-4 rounded-full mb-3 shadow-inner">
-                        <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
-                            </path>
-                        </svg>
-                    </div>
-                    <p class="text-slate-500 font-medium">El turno actual no tiene personal</p>
-                    <p class="text-slate-400 text-sm mt-1">Añade empleados arriba para comenzar la distribución</p>
+            </div>
+
+            <!-- Empty State Message (Separate from staffList to avoid deletion) -->
+            <div id="emptyStateMsg"
+                class="flex flex-col items-center justify-center py-12 px-4 border border-dashed border-slate-200 rounded-2xl bg-white/40 mt-4">
+                <div class="bg-slate-50 p-4 rounded-full mb-3 shadow-inner">
+                    <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
                 </div>
+                <p class="text-slate-500 font-medium">El turno actual no tiene personal</p>
+                <p class="text-slate-400 text-sm mt-1">Añade empleados arriba para comenzar la distribución</p>
             </div>
 
             <!-- Estadísticas de Resumen -->
@@ -172,7 +174,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    <span class="font-mono text-[11px] text-emerald-700 tracking-tight text-center sm:text-left">PAGO = (HRS / TOTAL) × FONDOS</span>
+                    <span class="font-mono text-[11px] text-emerald-700 tracking-tight text-center sm:text-left">PAGO = (HRS
+                        / TOTAL) × FONDOS</span>
                 </div>
             </div>
 
@@ -196,6 +199,9 @@
                 </button>
             </div>
         </form>
+
+        <!-- Toast Notification Area -->
+        <div id="toastContainer" class="fixed top-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
     </div>
 
@@ -242,8 +248,7 @@
                 const hours = parseFloat(inHours.value);
 
                 if (!name || !role || isNaN(hours) || hours <= 0) {
-                    // Focus styling for visual feedback instead of alert if possible, but alert is fine for now
-                    alert('Faltan datos: Asegúrate de ingresar Nombre, seleccionar un Rol, y definir Horas válidas.');
+                    showToast('Faltan datos: Asegúrate de completar todos los campos.', 'error');
                     return;
                 }
 
@@ -257,6 +262,7 @@
 
                 renderStaffList();
                 updateCalculations();
+                showToast(`${name} añadido correctamente.`, 'success');
             });
 
             // Función de Añadido Rápido mapeada al objeto window global
@@ -276,6 +282,7 @@
 
                 renderStaffList();
                 updateCalculations();
+                showToast(`${role} añadido rápidamente.`, 'success');
             };
 
             function renderStaffList() {
@@ -284,12 +291,11 @@
                 totalGroupHours = 0;
 
                 if (staffData.length === 0) {
-                    staffListContainer.appendChild(emptyStateMsg);
-                    emptyStateMsg.style.display = 'flex';
+                    emptyStateMsg.classList.remove('hidden');
                     return;
                 }
 
-                emptyStateMsg.style.display = 'none';
+                emptyStateMsg.classList.add('hidden');
 
                 staffData.forEach((employee, index) => {
                     totalGroupHours += employee.hours;
@@ -301,58 +307,58 @@
                     card.style.animation = "fade-in 0.3s ease-out forwards";
 
                     card.innerHTML = `
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
-                            <!-- Identificación -->
-                            <div class="flex items-start space-x-4">
-                                <div class="mt-1 relative flex h-2.5 w-2.5 flex-shrink-0">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]"></span>
-                                </div>
-                                <div>
-                                    <h3 class="text-lg font-bold text-slate-900 tracking-tight leading-tight">${employee.name}</h3>
-                                    <div class="flex items-center mt-1 space-x-2">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                            ${employee.role}
-                                        </span>
+                                <!-- Identificación -->
+                                <div class="flex items-start space-x-4">
+                                    <div class="mt-1 relative flex h-2.5 w-2.5 flex-shrink-0">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]"></span>
                                     </div>
-                                </div>
-                            </div>
-
-                            <!-- Cálculos -->
-                            <div class="flex flex-row items-center justify-end flex-grow sm:flex-grow-0 space-x-6 sm:space-x-8">
-
-                                <!-- Horas -->
-                                <div class="text-right">
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Jornada</p>
-                                    <p class="text-lg font-mono text-emerald-400/90 leading-none">${Number(employee.hours).toFixed(2)}<span class="text-xs text-slate-500 ml-1 font-sans">hrs</span></p>
-                                </div>
-
-                                <!-- Cálculo Algorítmico -->
-                                <div class="text-right pl-6 border-l border-slate-100 relative">
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retribución</p>
-                                    <div class="text-3xl font-extrabold text-slate-900 tracking-tighter flex items-baseline justify-end">
-                                        <span class="text-[10px] sm:text-sm font-medium text-emerald-600 mr-1 translate-y-[-2px]">Bs.</span>
-                                        <span class="calculated-payment transition-all duration-300" id="pay-${employee.id}">0.00</span>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-900 tracking-tight leading-tight">${employee.name}</h3>
+                                        <div class="flex items-center mt-1 space-x-2">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                                                ${employee.role}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Acción de Eliminar -->
-                                <div class="pl-2 flex items-center h-full">
-                                    <button type="button" class="remove-staff-btn bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-500 p-2 rounded-lg transition-colors border border-slate-100 hover:border-rose-200" data-id="${employee.id}" title="Eliminar del turno">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
+                                <!-- Cálculos -->
+                                <div class="flex flex-row items-center justify-end flex-grow sm:flex-grow-0 space-x-6 sm:space-x-8">
+
+                                    <!-- Horas -->
+                                    <div class="text-right">
+                                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Jornada</p>
+                                        <p class="text-lg font-mono text-emerald-400/90 leading-none">${Number(employee.hours).toFixed(2)}<span class="text-xs text-slate-500 ml-1 font-sans">hrs</span></p>
+                                    </div>
+
+                                    <!-- Cálculo Algorítmico -->
+                                    <div class="text-right pl-6 border-l border-slate-100 relative">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retribución</p>
+                                        <div class="text-3xl font-extrabold text-slate-900 tracking-tighter flex items-baseline justify-end">
+                                            <span class="text-[10px] sm:text-sm font-medium text-emerald-600 mr-1 translate-y-[-2px]">Bs.</span>
+                                            <span class="calculated-payment transition-all duration-300" id="pay-${employee.id}">0.00</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Acción de Eliminar -->
+                                    <div class="pl-2 flex items-center h-full">
+                                        <button type="button" class="remove-staff-btn bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-500 p-2 rounded-lg transition-colors border border-slate-100 hover:border-rose-200" data-id="${employee.id}" title="Eliminar del turno">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        `;
                     staffListContainer.appendChild(card);
 
                     const hiddenInputs = `
-                        <input type="hidden" name="staff[${index}][name]" value="${employee.name}">
-                        <input type="hidden" name="staff[${index}][hours]" value="${employee.hours}">
-                        <input type="hidden" name="staff[${index}][payment]" id="hidden-pay-${employee.id}" value="0">
-                    `;
+                            <input type="hidden" name="staff[${index}][name]" value="${employee.name}">
+                            <input type="hidden" name="staff[${index}][hours]" value="${employee.hours}">
+                            <input type="hidden" name="staff[${index}][payment]" id="hidden-pay-${employee.id}" value="0">
+                        `;
                     hiddenStaffInputsContainer.insertAdjacentHTML('beforeend', hiddenInputs);
                 });
 
@@ -361,11 +367,43 @@
                 document.querySelectorAll('.remove-staff-btn').forEach(btn => {
                     btn.addEventListener('click', function () {
                         const idToRemove = parseInt(this.getAttribute('data-id'));
+                        const staffMember = staffData.find(s => s.id === idToRemove);
                         staffData = staffData.filter(s => s.id !== idToRemove);
                         renderStaffList();
                         updateCalculations();
+                        if (staffMember) showToast(`${staffMember.name} eliminado.`, 'info');
                     });
                 });
+            }
+
+            function showToast(message, type = 'success') {
+                const toastContainer = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+
+                const colors = {
+                    success: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+                    error: 'bg-rose-50 border-rose-200 text-rose-700',
+                    info: 'bg-slate-50 border-slate-200 text-slate-700'
+                };
+
+                const icons = {
+                    success: '<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+                    error: '<svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+                    info: '<svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
+                };
+
+                toast.className = `glass-panel flex items-center gap-3 p-4 pr-6 min-w-[280px] shadow-lg animate-fade-in-right pointer-events-auto ${colors[type] || colors.info}`;
+                toast.innerHTML = `
+                        <div class="flex-shrink-0">${icons[type] || icons.info}</div>
+                        <p class="text-sm font-semibold tracking-tight">${message}</p>
+                    `;
+
+                toastContainer.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.classList.add('animate-fade-out-right');
+                    setTimeout(() => toast.remove(), 500);
+                }, 3000);
             }
 
             function updateCalculations() {
