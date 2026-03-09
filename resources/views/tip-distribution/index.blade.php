@@ -134,7 +134,7 @@
 
         <!-- MAIN FORM: Submission of total and dynamic staff array -->
         <form action="{{ route('tip-distribution.store') }}" method="POST" id="tipDistributionForm">
-            @csrf
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="final_total_tips" id="hiddenTotalTips" value="0">
 
             <!-- Container for Hidden Dynamic Inputs -->

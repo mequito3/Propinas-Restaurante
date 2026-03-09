@@ -9,6 +9,9 @@
 
     <title>Tip Distribution Engine | Americo Labs</title>
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,11 +24,12 @@
     <style>
         body {
             background-color: #FFFFFF !important;
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%) !important;
             color: #1E293B !important;
         }
+
         .glass-panel {
             background-color: rgba(255, 255, 255, 0.7) !important;
             backdrop-filter: blur(20px) !important;
@@ -44,7 +48,7 @@
                     class="h-20 sm:h-24 w-auto mx-auto mb-4">
             </a>
 
-                                   <p class="text-slate-500 font-medium text-sm sm:text-base">Time-algoritmic equitable distribution</p>
+            <p class="text-slate-500 font-medium text-sm sm:text-base">Time-algoritmic equitable distribution</p>
         </header>
 
         <main>
