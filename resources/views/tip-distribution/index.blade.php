@@ -47,7 +47,7 @@
                 Añadir Miembro del Equipo
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-end">
                 <div class="md:col-span-4 relative group">
                     <label
                         class="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Nombre</label>
