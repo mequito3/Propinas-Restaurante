@@ -2,6 +2,8 @@
 
 ![Americo Labs Logo](public/images/logo.png)
 
+### 🌐 Demo en Vivo: [https://prop.americolabs.com/](https://prop.americolabs.com/)
+
 Una solución premium y minimalista para la distribución equitativa de propinas basada en algoritmos de tiempo. Diseñado para ofrecer transparencia y eficiencia en equipos de servicio.
 
 ## ✨ Características Principales
@@ -54,6 +56,12 @@ El proyecto incluye configuraciones específicas para Hostinger:
 ## ✒️ Créditos
 
 Diseñado y desarrollado por **[Americo Labs](https://portafolio.americolabs.com/)**.
+
+---
+
+### 🚀 Sobre el Autor
+
+Si te interesa mi trabajo o quieres contactarme para proyectos similares, visita mi **[Portafolio Profesional](https://portafolio.americolabs.com/)**.
 
 ---
 

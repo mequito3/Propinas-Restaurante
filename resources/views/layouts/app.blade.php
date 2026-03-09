@@ -2,12 +2,14 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
-        content="Time-algoritmic equitable tip distribution engine by Americo Labs. Efficient and fair management for service teams.">
-    <meta name="keywords" content="tips, distribution, service industry, payroll, HR optimization, Americo Labs">
+        content="Motor de distribución equitativa de propinas basado en algoritmos de tiempo por Americo Labs. Gestión eficiente y justa para equipos de servicio.">
+    <meta name="keywords" content="propinas, distribución, restaurante, nómina, optimización RRHH, Americo Labs">
     <meta name="author" content="Americo Labs">
 
-    <title>Tip Distribution Engine | Americo Labs</title>
+    <title>Calculadora de Propinas | Americo Labs</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -48,7 +50,7 @@
                     class="h-20 sm:h-24 w-auto mx-auto mb-4">
             </a>
 
-            <p class="text-slate-500 font-medium text-sm sm:text-base">Time-algoritmic equitable distribution</p>
+            <p class="text-slate-500 font-medium text-sm sm:text-base">Distribución equitativa por tiempo trabajado</p>
         </header>
 
         <main>
@@ -58,8 +60,8 @@
         <footer class="mt-16 pb-8 border-t border-slate-200 pt-10">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6 px-4">
                 <div class="text-center md:text-left">
-                    <p class="text-slate-500 text-sm font-medium">&copy; {{ date('Y') }} Americo Labs. All rights
-                        reserved.</p>
+                    <p class="text-slate-500 text-sm font-medium">&copy; {{ date('Y') }} Americo Labs. Todos los
+                        derechos reservados.</p>
                 </div>
 
                 <div

@@ -3,7 +3,7 @@
 @section('content')
     <div class="space-y-8 relative max-w-4xl mx-auto">
 
-        <!-- Success Message Alert -->
+        <!-- Alerta de Mensaje de Éxito -->
         @if(session('success'))
             <div
                 class="glass-panel p-4 bg-emerald-50 border-emerald-200 text-emerald-700 flex items-center justify-center space-x-3 shadow-sm animate-fade-in-down">
@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <!-- Top Section: Total Tips Input -->
+        <!-- Sección Superior: Entrada de Total de Propinas -->
         <div class="glass-panel p-8 flex flex-col items-center relative overflow-hidden group">
             <!-- Subtle Glow Effect Behind -->
             <div
@@ -28,7 +28,7 @@
 
             <div class="relative w-full max-w-sm z-10">
                 <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                    <span class="text-emerald-600/80 font-medium text-2xl">Bs.</span>
+                    <span class="text-emerald-600/80 font-medium text-lg sm:text-2xl">Bs.</span>
                 </div>
                 <input type="number" id="totalTips" name="totalTips" min="0" step="0.01" placeholder="0.00"
                     class="block w-full pl-20 pr-6 py-6 bg-white border border-slate-200 rounded-[1.25rem] text-slate-900 text-5xl font-extrabold text-center focus:outline-none focus:ring-1 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all shadow-sm placeholder-slate-300 hover:bg-slate-50"
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <!-- New Section: Add Dynamic Staff -->
+        <!-- Nueva Sección: Añadir Personal Dinámicamente -->
         <div class="glass-panel p-6">
             <h2
                 class="text-xs font-bold text-slate-400 mb-5 uppercase tracking-[0.15em] flex items-center border-b border-white/5 pb-3">
@@ -132,17 +132,17 @@
             </div>
         </div>
 
-        <!-- MAIN FORM: Submission of total and dynamic staff array -->
+        <!-- FORMULARIO PRINCIPAL: Envío de total y lista de personal -->
         <form action="{{ route('tip-distribution.store') }}" method="POST" id="tipDistributionForm">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="final_total_tips" id="hiddenTotalTips" value="0">
 
-            <!-- Container for Hidden Dynamic Inputs -->
+            <!-- Contenedor para Inputs Dinámicos Ocultos -->
             <div id="hiddenStaffInputs"></div>
 
-            <!-- Middle Section: Staff Processing List -->
+            <!-- Sección Media: Lista de Procesamiento de Personal -->
             <div class="space-y-4 min-h-[120px]" id="staffList">
-                <!-- Dynamic staff cards injected here -->
+                <!-- Tarjetas de personal dinámicas inyectadas aquí -->
                 <div id="emptyStateMsg"
                     class="flex flex-col items-center justify-center py-12 px-4 border border-dashed border-slate-200 rounded-2xl bg-white/40 mt-4">
                     <div class="bg-slate-50 p-4 rounded-full mb-3 shadow-inner">
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <!-- Summary Stats -->
+            <!-- Estadísticas de Resumen -->
             <div
                 class="glass-panel mt-6 px-6 py-4 flex flex-col sm:flex-row justify-between items-center text-sm border-t-2 border-t-emerald-500">
                 <div class="flex items-center space-x-3 mb-3 sm:mb-0">
@@ -172,16 +172,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    <span class="font-mono text-[11px] text-emerald-700 tracking-tight">PAGO = (HRS / TOTAL) × FONDOS</span>
+                    <span class="font-mono text-[11px] text-emerald-700 tracking-tight text-center sm:text-left">PAGO = (HRS / TOTAL) × FONDOS</span>
                 </div>
             </div>
 
-            <!-- Bottom Section: Action Button -->
+            <!-- Sección Inferior: Botón de Acción -->
             <div class="mt-8">
                 <button type="submit" id="closeShiftBtn" disabled
                     class="w-full relative overflow-hidden group bg-emerald-600 border border-emerald-500 text-white font-extrabold py-5 px-6 rounded-2xl shadow-[0_10px_30px_-10px_rgba(5,150,105,0.4)] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-emerald-700 active:scale-[0.98]">
 
-                    <!-- Shine effect -->
+                    <!-- Efecto de brillo -->
                     <div
                         class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine">
                     </div>
@@ -211,7 +211,7 @@
         }
     </style>
 
-    <!-- Vanilla JS for Dynamic DOM & Real-time Calculation -->
+    <!-- JavaScript para DOM Dinámico y Cálculo en Tiempo Real -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const totalTipsInput = document.getElementById('totalTips');
@@ -222,7 +222,7 @@
             const totalGroupHoursDisplay = document.getElementById('totalGroupHoursDisplay');
             const hiddenStaffInputsContainer = document.getElementById('hiddenStaffInputs');
 
-            // Add Staff Inputs
+            // Inputs para Añadir Personal
             const btnAddStaff = document.getElementById('addStaffBtn');
             const inName = document.getElementById('newStaffName');
             const inRole = document.getElementById('newStaffRole');
@@ -259,7 +259,7 @@
                 updateCalculations();
             });
 
-            // Quick Add Function mapped to global window object so HTML onClick can reach it
+            // Función de Añadido Rápido mapeada al objeto window global
             window.addQuickStaff = function (role) {
                 const genericNames = ['Alex', 'Sam', 'Cris', 'Dani', 'Pat', 'Leo', 'Max', 'Eli'];
                 const randomName = genericNames[Math.floor(Math.random() * genericNames.length)];
@@ -297,13 +297,13 @@
                     const card = document.createElement('div');
                     card.className = "glass-panel p-5 relative overflow-hidden group hover:bg-slate-50 transition-colors duration-300 border-l-4 border-l-emerald-500";
 
-                    // Add subtil highlight on creation
+                    // Añadir resaltado sutil al crear
                     card.style.animation = "fade-in 0.3s ease-out forwards";
 
                     card.innerHTML = `
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
-                            <!-- Identification -->
+                            <!-- Identificación -->
                             <div class="flex items-start space-x-4">
                                 <div class="mt-1 relative flex h-2.5 w-2.5 flex-shrink-0">
                                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -319,25 +319,25 @@
                                 </div>
                             </div>
 
-                            <!-- Computations -->
+                            <!-- Cálculos -->
                             <div class="flex flex-row items-center justify-end flex-grow sm:flex-grow-0 space-x-6 sm:space-x-8">
 
-                                <!-- Hours -->
+                                <!-- Horas -->
                                 <div class="text-right">
                                     <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Jornada</p>
                                     <p class="text-lg font-mono text-emerald-400/90 leading-none">${Number(employee.hours).toFixed(2)}<span class="text-xs text-slate-500 ml-1 font-sans">hrs</span></p>
                                 </div>
 
-                                <!-- Algorithmic Calculation -->
+                                <!-- Cálculo Algorítmico -->
                                 <div class="text-right pl-6 border-l border-slate-100 relative">
                                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retribución</p>
                                     <div class="text-3xl font-extrabold text-slate-900 tracking-tighter flex items-baseline justify-end">
-                                        <span class="text-sm font-medium text-emerald-600 mr-1 translate-y-[-2px]">Bs.</span>
+                                        <span class="text-[10px] sm:text-sm font-medium text-emerald-600 mr-1 translate-y-[-2px]">Bs.</span>
                                         <span class="calculated-payment transition-all duration-300" id="pay-${employee.id}">0.00</span>
                                     </div>
                                 </div>
 
-                                <!-- Delete Action -->
+                                <!-- Acción de Eliminar -->
                                 <div class="pl-2 flex items-center h-full">
                                     <button type="button" class="remove-staff-btn bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-500 p-2 rounded-lg transition-colors border border-slate-100 hover:border-rose-200" data-id="${employee.id}" title="Eliminar del turno">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -409,7 +409,7 @@
 
             totalTipsInput.addEventListener('input', updateCalculations);
 
-            // Initial setup for empty state
+            // Configuración inicial para estado vacío
             renderStaffList();
         });
     </script>
