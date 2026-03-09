@@ -292,6 +292,7 @@
 
                 if (staffData.length === 0) {
                     emptyStateMsg.classList.remove('hidden');
+                    totalGroupHoursDisplay.innerText = '0.00';
                     return;
                 }
 
@@ -307,58 +308,58 @@
                     card.style.animation = "fade-in 0.3s ease-out forwards";
 
                     card.innerHTML = `
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
-                                <!-- Identificación -->
-                                <div class="flex items-start space-x-4">
-                                    <div class="mt-1 relative flex h-2.5 w-2.5 flex-shrink-0">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-bold text-slate-900 tracking-tight leading-tight">${employee.name}</h3>
-                                        <div class="flex items-center mt-1 space-x-2">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                                ${employee.role}
-                                            </span>
+                                    <!-- Identificación -->
+                                    <div class="flex items-start space-x-4">
+                                        <div class="mt-1 relative flex h-2.5 w-2.5 flex-shrink-0">
+                                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]"></span>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <!-- Cálculos -->
-                                <div class="flex flex-row items-center justify-end flex-grow sm:flex-grow-0 space-x-6 sm:space-x-8">
-
-                                    <!-- Horas -->
-                                    <div class="text-right">
-                                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Jornada</p>
-                                        <p class="text-lg font-mono text-emerald-400/90 leading-none">${Number(employee.hours).toFixed(2)}<span class="text-xs text-slate-500 ml-1 font-sans">hrs</span></p>
-                                    </div>
-
-                                    <!-- Cálculo Algorítmico -->
-                                    <div class="text-right pl-6 border-l border-slate-100 relative">
-                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retribución</p>
-                                        <div class="text-3xl font-extrabold text-slate-900 tracking-tighter flex items-baseline justify-end">
-                                            <span class="text-[10px] sm:text-sm font-medium text-emerald-600 mr-1 translate-y-[-2px]">Bs.</span>
-                                            <span class="calculated-payment transition-all duration-300" id="pay-${employee.id}">0.00</span>
+                                        <div>
+                                            <h3 class="text-lg font-bold text-slate-900 tracking-tight leading-tight">${employee.name}</h3>
+                                            <div class="flex items-center mt-1 space-x-2">
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                                                    ${employee.role}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- Acción de Eliminar -->
-                                    <div class="pl-2 flex items-center h-full">
-                                        <button type="button" class="remove-staff-btn bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-500 p-2 rounded-lg transition-colors border border-slate-100 hover:border-rose-200" data-id="${employee.id}" title="Eliminar del turno">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        </button>
+                                    <!-- Cálculos -->
+                                    <div class="flex flex-row items-center justify-end flex-grow sm:flex-grow-0 space-x-6 sm:space-x-8">
+
+                                        <!-- Horas -->
+                                        <div class="text-right">
+                                            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Jornada</p>
+                                            <p class="text-lg font-mono text-emerald-400/90 leading-none">${Number(employee.hours).toFixed(2)}<span class="text-xs text-slate-500 ml-1 font-sans">hrs</span></p>
+                                        </div>
+
+                                        <!-- Cálculo Algorítmico -->
+                                        <div class="text-right pl-6 border-l border-slate-100 relative">
+                                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retribución</p>
+                                            <div class="text-3xl font-extrabold text-slate-900 tracking-tighter flex items-baseline justify-end">
+                                                <span class="text-[10px] sm:text-sm font-medium text-emerald-600 mr-1 translate-y-[-2px]">Bs.</span>
+                                                <span class="calculated-payment transition-all duration-300" id="pay-${employee.id}">0.00</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Acción de Eliminar -->
+                                        <div class="pl-2 flex items-center h-full">
+                                            <button type="button" class="remove-staff-btn bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-500 p-2 rounded-lg transition-colors border border-slate-100 hover:border-rose-200" data-id="${employee.id}" title="Eliminar del turno">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
                     staffListContainer.appendChild(card);
 
                     const hiddenInputs = `
-                            <input type="hidden" name="staff[${index}][name]" value="${employee.name}">
-                            <input type="hidden" name="staff[${index}][hours]" value="${employee.hours}">
-                            <input type="hidden" name="staff[${index}][payment]" id="hidden-pay-${employee.id}" value="0">
-                        `;
+                                <input type="hidden" name="staff[${index}][name]" value="${employee.name}">
+                                <input type="hidden" name="staff[${index}][hours]" value="${employee.hours}">
+                                <input type="hidden" name="staff[${index}][payment]" id="hidden-pay-${employee.id}" value="0">
+                            `;
                     hiddenStaffInputsContainer.insertAdjacentHTML('beforeend', hiddenInputs);
                 });
 
@@ -394,9 +395,9 @@
 
                 toast.className = `glass-panel flex items-center gap-3 p-4 pr-6 min-w-[280px] shadow-lg animate-fade-in-right pointer-events-auto ${colors[type] || colors.info}`;
                 toast.innerHTML = `
-                        <div class="flex-shrink-0">${icons[type] || icons.info}</div>
-                        <p class="text-sm font-semibold tracking-tight">${message}</p>
-                    `;
+                            <div class="flex-shrink-0">${icons[type] || icons.info}</div>
+                            <p class="text-sm font-semibold tracking-tight">${message}</p>
+                        `;
 
                 toastContainer.appendChild(toast);
 
