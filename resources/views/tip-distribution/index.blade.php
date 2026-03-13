@@ -31,7 +31,7 @@
                     <span class="text-emerald-600/80 font-medium text-lg sm:text-2xl">Bs.</span>
                 </div>
                 <input type="number" id="totalTips" name="totalTips" min="0" step="0.01" placeholder="0.00"
-                    class="block w-full pl-20 pr-6 py-6 bg-white border border-slate-200 rounded-[1.25rem] text-slate-900 text-5xl font-extrabold text-center focus:outline-none focus:ring-1 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all shadow-sm placeholder-slate-300 hover:bg-slate-50"
+                    class="block w-full pl-16 sm:pl-20 pr-4 sm:pr-6 py-4 sm:py-6 bg-white border border-slate-200 rounded-[1.25rem] text-slate-900 text-3xl sm:text-5xl font-extrabold text-center focus:outline-none focus:ring-1 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all shadow-sm placeholder-slate-300 hover:bg-slate-50"
                     autocomplete="off">
             </div>
         </div>
