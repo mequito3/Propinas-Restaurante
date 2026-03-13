@@ -338,7 +338,7 @@
                                         <!-- Cálculo Algorítmico -->
                                         <div class="text-right pl-6 border-l border-slate-100 relative">
                                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retribución</p>
-                                            <div class="text-3xl font-extrabold text-slate-900 tracking-tighter flex items-baseline justify-end">
+                                            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tighter flex items-baseline justify-end">
                                                 <span class="text-[10px] sm:text-sm font-medium text-emerald-600 mr-1 translate-y-[-2px]">Bs.</span>
                                                 <span class="calculated-payment transition-all duration-300" id="pay-${employee.id}">0.00</span>
                                             </div>

@@ -79,7 +79,7 @@
         <header class="mb-10 text-center px-4">
             <a href="{{ url('/') }}" class="inline-block transition-transform hover:scale-105 duration-300">
                 <img src="{{ asset('images/logo.png') }}" alt="Americo Labs Logo"
-                    class="h-20 sm:h-24 w-auto mx-auto mb-4">
+                    class="h-12 sm:h-16 w-auto mx-auto mb-4 max-w-full transition-opacity duration-300">
             </a>
 
             <p class="text-slate-500 font-medium text-sm sm:text-base">Distribución equitativa por tiempo trabajado</p>
